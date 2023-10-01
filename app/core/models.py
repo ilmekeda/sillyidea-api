@@ -1,4 +1,4 @@
-"""Database Models"""
+'''Database Models'''
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -11,22 +11,22 @@ from django.utils.translation import gettext_lazy as _
 
 
 def update_last_login(sender, user, **kwargs):
-    """
+    '''
     A signal receiver which updates the last_login date for
     the user logging in.
-    """
+    '''
     user.last_login = timezone.now()
     user.save(update_fields=['last_login'])
 
 
 class UserManager(BaseUserManager):
-    """Manager for a user model"""
+    '''Manager for a user model'''
 
     def create_user(self, email, password=None, **extra_fields):
-        """
+        '''
         Create, save, and return a new user.
         NOTE: a password with none is for testing or user that cannot login
-        """
+        '''
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -35,10 +35,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """
+    '''
     User in this system using custom model with
     admin-compliant permissions
-    """
+    '''
     email = models.EmailField(
         _('email address'),
         max_length=255,
@@ -76,16 +76,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def get_full_name(self):
-        """
+        '''
         Return the first_name plus the last_name, with a space in between.
-        """
+        '''
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 
     def get_short_name(self):
-        """Return the short name for the user."""
+        '''Return the short name for the user.'''
         return self.first_name
 
     def email_user(self, subject, message, from_email=None, **kwargs):
-        """Send an email to this user."""
+        '''Send an email to this user.'''
         send_mail(subject, message, from_email, [self.email], **kwargs)

@@ -14,9 +14,17 @@ app/*/*/__pycache__/
 #app/*/*/*.pyc
 app/*/*/*/__pycache__/
 #app/*/*/*/*.pyc
+
+# Local Databases
 #app/db.sqlite3
+
+# Documentation
 #app/docs
-#*.log
+
+# Logs
+*.log
+
+# Virtual Environments for Python
 .env/
 .venv/
 venv/

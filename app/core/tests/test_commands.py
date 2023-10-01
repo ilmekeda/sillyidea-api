@@ -1,6 +1,6 @@
-"""
+'''
 Test custom Django management commands
-"""
+'''
 
 from unittest.mock import patch
 from psycopg2 import OperationalError as Psycopg2OperationalError
@@ -11,21 +11,19 @@ from django.test import SimpleTestCase
 
 @patch('core.management.commands.wait_for_db.Command.check')
 class CommandTests(SimpleTestCase):
-    """Test custom commands"""
+    '''Test custom commands'''
 
-    """happy path"""
     def test_wait_for_db_ready(self, patched_check):
-        """Test waiting for database: is the database ready?"""
+        '''Test waiting for database: is the database ready?'''
         patched_check.return_value = True
 
         call_command('wait_for_db')
 
         patched_check.assert_called_once_with(databases=['default'])
 
-    """bad path"""
     @patch('time.sleep')
     def test_wait_for_db_delay(self, patched_sleep, patched_check):
-        """Test of the delay for database? some kind of obstacle"""
+        '''Test of the delay for database? some kind of obstacle'''
 
         # listened three times, still lost as to how this works
         patched_check.side_effect = [Psycopg2OperationalError] * 2 + \

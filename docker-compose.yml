@@ -20,7 +20,7 @@ services:
       - DB_USER=devuser
       - DB_PASSWORD=changeme
     depends_on:
-    - db
+      - db
 
   db:
     image: postgres:13-alpine
