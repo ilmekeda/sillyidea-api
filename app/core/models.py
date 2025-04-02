@@ -1,4 +1,6 @@
-'''Database Models'''
+'''
+Database Models
+'''
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -7,7 +9,7 @@ from django.contrib.auth.models import (
 )
 from django.core.mail import send_mail
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as translate
 
 
 def update_last_login(sender, user, **kwargs):
@@ -51,30 +53,31 @@ class User(AbstractBaseUser, PermissionsMixin):
     admin-compliant permissions
     '''
     email = models.EmailField(
-        _('email address'),
+        translate('email address'),
         max_length=255,
         unique=True,
         error_messages={
-            'unique': _("A user with that email already exists."),
+            'unique': translate('A user with that email already exists.'),
         },
     )
-    first_name = models.CharField(_('first name'), max_length=125)
-    last_name = models.CharField(_('last name'), max_length=125)
+    first_name = models.CharField(translate('first name'), max_length=125)
+    last_name = models.CharField(translate('last name'), max_length=125)
     is_active = models.BooleanField(
         default=True,
-        help_text=_(
+        help_text=translate(
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'
         ),
     )
     is_staff = models.BooleanField(
-        _('staff status'),
+        translate('staff status'),
         default=False,
-        help_text=_('Designates whether the user can '
-                    'log into this admin site.'),
+        help_text=translate(
+            'Designates whether the user can '
+            'log into this admin site.'),
     )
     date_joined = models.DateTimeField(
-        _('date joined'),
+        translate('date joined'),
         default=timezone.now
     )
 
@@ -83,8 +86,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = translate('user')
+        verbose_name_plural = translate('users')
 
     def get_full_name(self):
         '''
@@ -94,9 +97,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         return full_name.strip()
 
     def get_short_name(self):
-        '''Return the short name for the user.'''
+        '''Return the short name for the user'''
         return self.first_name
 
     def email_user(self, subject, message, from_email=None, **kwargs):
-        '''Send an email to this user.'''
+        '''Send an email to this user'''
         send_mail(subject, message, from_email, [self.email], **kwargs)
