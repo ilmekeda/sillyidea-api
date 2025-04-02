@@ -6,6 +6,8 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import Client
 
+from rest_framework import status
+
 
 '''super user info'''
 _DEFAULT_EMAIL1 = 'admin@example.com'
@@ -53,7 +55,7 @@ class AdminSiteTests(TestCase):
         url = reverse('admin:core_user_change', args=[self.user.id])
         result = self.client.get(url)
 
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, status.HTTP_200_OK)
 
     def test_create_user_page(self):
         '''Test that the create user page works in admin'''
